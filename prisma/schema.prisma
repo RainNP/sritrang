@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserTier {
+  NEW_FRIEND
+  REGULAR_FRIEND
+  BEST_FRIEND
+}
+
+model User {
+  id        String     @id @default(cuid())
+  firstName String
+  lastName  String
+  userTier UserTier  @default(NEW_FRIEND)
+  profilePictureUrl String?
+  points    Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
